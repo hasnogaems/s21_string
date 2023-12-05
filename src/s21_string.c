@@ -36,14 +36,16 @@ int main() {
     printf("strncmp: %d\n", i);
     printf("s21_strncmp: %d\n", j);
 
-    char str6 [10]="01234539";
-   // Набор символов, которые не должны входить в искомый сегмент
-   char sym [10]="9876";
+    char str6 [10]="123456780";
+    char sym [10]="9876";
     int len = strcspn(str6, sym);
-    printf("%d\n", len);
+    printf("strcspn: %d\n", len);
 
     int len1 = s21_strcspn(str6, sym);
-    printf("%d\n", len1);
+    printf("s21_strcspn: %d\n", len1);
+
+    printf("strerror: %s\n", strerror(106));
+    // printf("s21_strerror: %s\n", s21_strerror(35));
 }
 
 void *s21_memchr(const void *str, int c, size_t n) {
@@ -90,7 +92,13 @@ char *s21_strncat(char *dest, const char *src, size_t n) {
     return dest;
 }
 
-int s21_strncmp (const char *str1, const char *str2, size_t n) {
+
+// char *s21_strchr(const char *str, int c) {
+
+// }
+
+
+int s21_strncmp(const char *str1, const char *str2, size_t n) {
     int cmp = 0;
     for (int i = 0; i < (int)n; i++) {
         if (str1[i] > str2[i]) {
@@ -102,14 +110,36 @@ int s21_strncmp (const char *str1, const char *str2, size_t n) {
     return cmp;
 }
 
+// char *s21_strncpy(char *dest, const char *src, size_t n) {
+
+// }
+
 size_t s21_strcspn(const char *str1, const char *str2) {
     size_t len = 0;
+    
     for (int i = 0; i < (int)strlen(str1); i++) {
+        int check = 0;
         for (int j = 0; j < (int)strlen(str2); j++) {
-            if(str1[i] != str2[j]) {
-                
+            if(str1[i] == str2[j]) {
+                check = 1;
+                break;
             }
-        } 
+        }
+        if(!check) {
+            len++;
+        } else {
+            break;
+        }
     }
     return len;
 }
+
+// char *s21_strerror(int errnum) {
+//     char *value = "Unknown error";
+//     for (int i = 0; i < MAX_ERRORS; i++) {
+//         if(errnum == i + 1) {
+//             value = errorCodes[i];
+//         }
+//     }
+//     return value;
+// }
