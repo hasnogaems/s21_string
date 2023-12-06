@@ -44,8 +44,16 @@ int main() {
     int len1 = s21_strcspn(str6, sym);
     printf("s21_strcspn: %d\n", len1);
 
-    printf("strerror: %s\n", strerror(106));
-    // printf("s21_strerror: %s\n", s21_strerror(35));
+    printf("strerror: %s\n", strerror(108));
+    printf("s21_strerror: %s\n", s21_strerror(108));
+
+    printf("s21_strlen: %ld\n", s21_strlen("sdfbsgjfsw24645g"));
+    printf("strlen: %ld\n", strlen("sdfbsgjfsw24645g"));
+
+    char mas1[10] = "12345";
+    char mas2[10] = "67891";
+    char *sdf = strpbrk(mas1, mas2);
+    printf("%s", sdf);
 }
 
 void *s21_memchr(const void *str, int c, size_t n) {
@@ -134,12 +142,33 @@ size_t s21_strcspn(const char *str1, const char *str2) {
     return len;
 }
 
-// char *s21_strerror(int errnum) {
-//     char *value = "Unknown error";
-//     for (int i = 0; i < MAX_ERRORS; i++) {
-//         if(errnum == i + 1) {
-//             value = errorCodes[i];
+char *s21_strerror(int errnum) {
+    char *str = (char*)malloc(50 * sizeof(char));
+    if(errnum <= 106 && errnum >= 1) {
+        str = errorStrings[errnum - 1];
+    } else {
+        snprintf(str, 50, "Unknown error: %d", errnum);
+    }
+    free(str);
+    return str;
+}
+
+size_t s21_strlen(const char *str) {
+    const char *ptr = str;
+    while(*ptr != '\0') {
+        ptr++;
+    }
+    return (size_t)(ptr - str);
+}
+
+
+// char *s21_strpbrk(const char *str1, const char *str2) {
+    
+//     for (int i = 0; i < (int)strlen(str1); i++) {
+//         for (int j = 0; j < (int)strlen(str2); j++) {
+//             if(str1[i] == str2[j]) {
+
+//             }
 //         }
 //     }
-//     return value;
 // }
