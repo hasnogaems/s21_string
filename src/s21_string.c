@@ -1,15 +1,17 @@
 #include "s21_string.h"
 
 int main() {
-  char *str = s21_memchr("string", 't', 6);
+  char *str = s21_memchr("string", 'q', 6);
+  char *str23 = memchr("string", 'q', 6);
 
-  int s21memcmp = s21_memcmp("asd", "asd", 20);
-  int origmemcmp = memcmp("asd", "asd", 20);
+  int s21memcmp = s21_memcmp("asdq", "asdw", 4);
+  int origmemcmp = memcmp("asdq", "asdw", 4);
   printf("%s: %d\n", "Memcmp", origmemcmp);
-  printf("%s: %d\n", "s21_Mamcmp", s21memcmp);
+  printf("%s: %d\n", "s21_Memcmp", s21memcmp);
   printf("%s: %s\n", "s21_memchr", str);
+  printf("%s: %s\n", "memchr", str23);
 
-  char source[10] = "string";
+  char source[10] = "stritng";
   // s21_memcpy(dest2, source, 10);
   // memcpy(dest, source, 10);
   // printf("memcpy: %s\n", dest);
@@ -26,72 +28,78 @@ int main() {
 
   // s21_strncat(dest2, source, 4);
   // printf("s21_strncat: %s\n", dest2);
-  int ch = 'r';
+  int ch = 't';
   char *c = strchr(source, ch);
-  printf("strchr: %p\n", c);
+  printf("strchr: %s\n", c);
+  char *c1 = s21_strchr(source, ch);
+  printf("s21_strchr: %s\n", c1);
 
   int i = strncmp("string", "strina", 10);
   int j = s21_strncmp("string", "strina", 10);
   printf("strncmp: %d\n", i);
   printf("s21_strncmp: %d\n", j);
 
-  char str6[10] = "123456780";
-  char sym[10] = "9876";
-  int len = strcspn(str6, sym);
-  printf("strcspn: %d\n", len);
+  // char str6[10] = "123456780";
+  // char sym[10] = "9876";
+  // int len = strcspn(str6, sym);
+  // printf("strcspn: %d\n", len);
 
-  int len1 = s21_strcspn(str6, sym);
-  printf("s21_strcspn: %d\n", len1);
+  // int len1 = s21_strcspn(str6, sym);
+  // printf("s21_strcspn: %d\n", len1);
 
-  printf("strerror: %s\n", strerror(108));
-  printf("s21_strerror: %s\n", s21_strerror(108));
+  // printf("strerror: %s\n", strerror(108));
+  // printf("s21_strerror: %s\n", s21_strerror(108));
 
-  printf("s21_strlen: %ld\n", s21_strlen("sdfbsgjfsw24645g"));
-  printf("strlen: %ld\n", strlen("sdfbsgjfsw24645g"));
+  // printf("s21_strlen: %ld\n", s21_strlen("sdfbsgjfsw24645g"));
+  // printf("strlen: %ld\n", strlen("sdfbsgjfsw24645g"));
 
-  char mas1[10] = "123456789";
-  char mas2[10] = "4567";
-  char *line1 = strpbrk(mas1, mas2);
-  char *line2 = s21_strpbrk(mas1, mas2);
-  printf("strpbrk: %s\n", line1);
-  printf("s21_strpbrk: %s\n", line2);
+  // char mas1[10] = "123456789";
+  // char mas2[10] = "4567";
+  // char *line1 = strpbrk(mas1, mas2);
+  // char *line2 = s21_strpbrk(mas1, mas2);
+  // printf("strpbrk: %s\n", line1);
+  // printf("s21_strpbrk: %s\n", line2);
 
-  printf("strrchr: %s\n", strrchr(mas1, '1'));
-  printf("s21_strrchr: %s\n", s21_strrchr(mas1, '1'));
+  // printf("strrchr: %s\n", strrchr(mas1, '1'));
+  // printf("s21_strrchr: %s\n", s21_strrchr(mas1, '1'));
 
-  printf("strstr: %s\n", strstr(mas1, mas2));
-  printf("s21_strstr: %s\n", s21_strstr(mas1, mas2));
+  // printf("strstr: %s\n", strstr(mas1, mas2));
+  // printf("s21_strstr: %s\n", s21_strstr(mas1, mas2));
 
-  char sep1[24] = "test1/test2/test3/test4";
-  char sep[10] = ",/";
-  // char *istr1 = s21_strtok(sep1, sep);
-  char *istr = s21_strtok(sep1, sep);
+  // char sep1[24] = "test1/test2/test3/test4";
+  // char sep[10] = ",/";
+  // // char *istr1 = s21_strtok(sep1, sep);
+  // char *istr = s21_strtok(sep1, sep);
 
-  // Выделение последующих частей
-  while (istr != NULL) {
-    // Вывод очередной выделенной части
-    printf("s21_strtok: %s\n", istr);
-    // Выделение очередной части строки
-    istr = s21_strtok(NULL, sep);
-  }
+  // // Выделение последующих частей
+  // while (istr != NULL) {
+  //   // Вывод очередной выделенной части
+  //   printf("s21_strtok: %s\n", istr);
+  //   // Выделение очередной части строки
+  //   istr = s21_strtok(NULL, sep);
+  // }
 }
 
 void *s21_memchr(const void *str, int c, size_t n) {
+  char *line = NULL;
   for (int i = 0; i < (int)n; i++) {
     if (((char *)str)[i] == c) {
-      return ((char *)str) + i;
+      line = ((char *)str) + i;
+      break;
     }
   }
-  return NULL;
+  return line;
 }
 
 int s21_memcmp(const void *str1, const void *str2, size_t n) {
   int cmp = 0;
   for (int i = 0; i < (int)n; i++) {
     if (((char *)str1)[i] > ((char *)str2)[i]) {
-      return cmp = ((char *)str1)[i] - ((char *)str2)[i];
+      cmp = ((char *)str1)[i] - ((char *)str2)[i];
+      break;
     } else if (((char *)str1)[i] < ((char *)str2)[i]) {
-      return cmp = ((char *)str1)[i] - ((char *)str2)[i];
+      cmp = ((char *)str1)[i] - ((char *)str2)[i];
+      break;
     }
   }
   return cmp;
@@ -120,17 +128,26 @@ char *s21_strncat(char *dest, const char *src, size_t n) {
   return dest;
 }
 
-// char *s21_strchr(const char *str, int c) {
-
-// }
+char *s21_strchr(const char *str, int c) {
+  char *line = NULL;
+  for (int i = 0; i < (int)s21_strlen(str); i++) {
+    if (str[i] == c) {
+      line = (char *)&str[i];
+      break;
+    }
+  }
+  return line;
+}
 
 int s21_strncmp(const char *str1, const char *str2, size_t n) {
   int cmp = 0;
   for (int i = 0; i < (int)n; i++) {
     if (str1[i] > str2[i]) {
-      return cmp = str1[i] - str2[i];
+      cmp = str1[i] - str2[i];
+      break;
     } else if (((char *)str1)[i] < ((char *)str2)[i]) {
-      return cmp = str1[i] - str2[i];
+      cmp = str1[i] - str2[i];
+      break;
     }
   }
   return cmp;
@@ -160,16 +177,16 @@ size_t s21_strcspn(const char *str1, const char *str2) {
   return len;
 }
 
-char *s21_strerror(int errnum) {
-  char *str = (char *)malloc(50 * sizeof(char));
-  if (errnum <= 106 && errnum >= 1) {
-    str = errorStrings[errnum - 1];
-  } else {
-    snprintf(str, 50, "Unknown error: %d", errnum);
-  }
-  free(str);
-  return str;
-}
+// char *s21_strerror(int errnum) {
+//   char *str = (char *)malloc(50 * sizeof(char));
+//   if (errnum <= 106 && errnum >= 1) {
+//     str = errorStrings[errnum - 1];
+//   } else {
+//     snprintf(str, 50, "Unknown error: %d", errnum);
+//   }
+//   free(str);
+//   return str;
+// }
 
 size_t s21_strlen(const char *str) {
   const char *ptr = str;
