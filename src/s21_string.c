@@ -4,8 +4,8 @@ int main() {
   char *str = s21_memchr("string", 'q', 6);
   char *str23 = memchr("string", 'q', 6);
 
-  int s21memcmp = s21_memcmp("asdq", "asdw", 4);
-  int origmemcmp = memcmp("asdq", "asdw", 4);
+  int s21memcmp = s21_memcmp("stR", "st@", 4);
+  int origmemcmp = memcmp("stR", "st@", 4);
   printf("%s: %d\n", "Memcmp", origmemcmp);
   printf("%s: %d\n", "s21_Memcmp", s21memcmp);
   printf("%s: %s\n", "s21_memchr", str);
@@ -34,8 +34,8 @@ int main() {
   char *c1 = s21_strchr(source, ch);
   printf("s21_strchr: %s\n", c1);
 
-  int i = strncmp("string", "strina", 10);
-  int j = s21_strncmp("string", "strina", 10);
+  int i = strncmp("asdq", "asdw", 4);
+  int j = s21_strncmp("asdq", "asdw", 4);
   printf("strncmp: %d\n", i);
   printf("s21_strncmp: %d\n", j);
 
@@ -91,13 +91,10 @@ void *s21_memchr(const void *str, int c, size_t n) {
   return line;
 }
 
-int s21_memcmp(const void *str1, const void *str2, size_t n) {
+int s21_memcmp(const void *str1, const void *str2, size_t n) { // to do
   int cmp = 0;
   for (int i = 0; i < (int)n; i++) {
-    if (((char *)str1)[i] > ((char *)str2)[i]) {
-      cmp = ((char *)str1)[i] - ((char *)str2)[i];
-      break;
-    } else if (((char *)str1)[i] < ((char *)str2)[i]) {
+    if (((char *)str1)[i] != ((char *)str2)[i]) {
       cmp = ((char *)str1)[i] - ((char *)str2)[i];
       break;
     }
@@ -142,10 +139,7 @@ char *s21_strchr(const char *str, int c) {
 int s21_strncmp(const char *str1, const char *str2, size_t n) {
   int cmp = 0;
   for (int i = 0; i < (int)n; i++) {
-    if (str1[i] > str2[i]) {
-      cmp = str1[i] - str2[i];
-      break;
-    } else if (((char *)str1)[i] < ((char *)str2)[i]) {
+    if (str1[i] != str2[i]) {
       cmp = str1[i] - str2[i];
       break;
     }
@@ -177,16 +171,16 @@ size_t s21_strcspn(const char *str1, const char *str2) {
   return len;
 }
 
-// char *s21_strerror(int errnum) {
-//   char *str = (char *)malloc(50 * sizeof(char));
-//   if (errnum <= 106 && errnum >= 1) {
-//     str = errorStrings[errnum - 1];
-//   } else {
-//     snprintf(str, 50, "Unknown error: %d", errnum);
-//   }
-//   free(str);
-//   return str;
-// }
+char *s21_strerror(int errnum) {
+  char *str = (char *)malloc(50 * sizeof(char));
+  if (errnum <= 106 && errnum >= 1) {
+    str = errorStrings[errnum - 1];
+  } else {
+    snprintf(str, 50, "Unknown error: %d", errnum);
+  }
+  free(str);
+  return str;
+}
 
 size_t s21_strlen(const char *str) {
   const char *ptr = str;
