@@ -1,4 +1,5 @@
-#include <s21_string.h>
+#include "s21_string.h"
+#include <string.h>
 void s21_reverse(char *str, int length) {
     int start = 0;
     int end = length - 1;
@@ -72,24 +73,24 @@ int s21_sprintf(char *output, const char *format, ...) {
             format++;
 
             // Flags
-            int left_justify = 0;
-            int force_sign = 0;
-            int space_for_positive = 0;
-            int alternate_form = 0;
-            int zero_padding = 0;
+            // int left_justify = 0;
+            // int force_sign = 0;
+            // int space_for_positive = 0;
+            // int alternate_form = 0;
+            // int zero_padding = 0;
 
             while (*format == '-' || *format == '+' || *format == ' ' || *format == '#' || *format == '0') {
-                if (*format == '-') {
-                    left_justify = 1;
-                } else if (*format == '+') {
-                    force_sign = 1;
-                } else if (*format == ' ') {
-                    space_for_positive = 1;
-                } else if (*format == '#') {
-                    alternate_form = 1;
-                } else if (*format == '0') {
-                    zero_padding = 1;
-                }
+                // if (*format == '-') {
+                //     left_justify = 1;
+                // } else if (*format == '+') {
+                //     force_sign = 1;
+                // } else if (*format == ' ') {
+                //     space_for_positive = 1;
+                // } else if (*format == '#') {
+                //     alternate_form = 1;
+                // } else if (*format == '0') {
+                //     zero_padding = 1;
+                // }
                 format++;
             }
 
@@ -141,7 +142,7 @@ int s21_sprintf(char *output, const char *format, ...) {
                 case 'i': {
                     int num = va_arg(args, int);
                     chars_written += s21_itoa(num, output, 10);
-                    output += s21_strlen(output);
+                    output += strlen(output);
                     break;
                 }
                 case 'f': {
@@ -149,11 +150,11 @@ int s21_sprintf(char *output, const char *format, ...) {
                         // Handle long double (not fully supported here)
                         long double num = va_arg(args, long double);
                         chars_written += s21_itoa((int)num, output, 10);
-                        output += s21_strlen(output);
+                        output += strlen(output);
                     } else {
                         double num = va_arg(args, double);
                         chars_written += s21_itoa((int)num, output, 10);
-                        output += s21_strlen(output);
+                        output += strlen(output);
                     }
                     break;
                 }
@@ -170,7 +171,7 @@ int s21_sprintf(char *output, const char *format, ...) {
                 case 'u': {
                     unsigned int num = va_arg(args, unsigned int);
                     chars_written += s21_itoa(num, output, 10);
-                    output += s21_strlen(output);
+                    output += strlen(output);
                     break;
                 }
                 case '%': {
@@ -182,18 +183,18 @@ int s21_sprintf(char *output, const char *format, ...) {
                 case 'g':
                 case 'G':
                     chars_written += s21_itoa(va_arg(args, double), output, 10);
-                    output += s21_strlen(output);
+                    output += strlen(output);
                     break;
                 case 'e':
                 case 'E':
                     chars_written += s21_itoa(va_arg(args, int), output, 10);
-                    output += s21_strlen(output);
+                    output += strlen(output);
                     break;
                 case 'x':
                 case 'X': {
                     unsigned int num = va_arg(args, unsigned int);
                     chars_written += s21_itoa(num, output, 16);
-                    output += s21_strlen(output);
+                    output += strlen(output);
                     if (*format == 'X') {
                         for (int i = 0; output[i] != '\0'; i++) {
                             if (output[i] >= 'a' && output[i] <= 'z') {
@@ -206,13 +207,13 @@ int s21_sprintf(char *output, const char *format, ...) {
                 case 'o': {
                     unsigned int num = va_arg(args, unsigned int);
                     chars_written += s21_itoa(num, output, 8);
-                    output += s21_strlen(output);
+                    output += strlen(output);
                     break;
                 }
                 case 'p': {
                     uintptr_t ptr_val = (uintptr_t)va_arg(args, void *);
                     chars_written += s21_itoa((int)ptr_val, output, 16);
-                    output += s21_strlen(output);
+                    output += strlen(output);
                     break;
                 }
                 default:
@@ -235,43 +236,43 @@ int s21_sprintf(char *output, const char *format, ...) {
     return chars_written;
 }
 
-int main() {
-    char output_str[100];
+// int main() {
+//     char output_str[100];
 
-    // Test cases for different specifiers
-    s21_sprintf(output_str, "Char: %c\n", 'A');
-    printf("%s", output_str);
+//     // Test cases for different specifiers
+//     s21_sprintf(output_str, "Char: %c\n", 'A');
+//     printf("%s", output_str);
 
-    s21_sprintf(output_str, "Integer: %d\n", 12345);
-    printf("%s", output_str);
+//     s21_sprintf(output_str, "Integer: %d\n", 12345);
+//     printf("%s", output_str);
 
-    s21_sprintf(output_str, "Float: %f\n", 45.67);
-    printf("%s", output_str);
+//     s21_sprintf(output_str, "Float: %f\n", 45.67);
+//     printf("%s", output_str);
 
-    s21_sprintf(output_str, "String: %s\n", "Hello");
-    printf("%s", output_str);
+//     s21_sprintf(output_str, "String: %s\n", "Hello");
+//     printf("%s", output_str);
 
-    s21_sprintf(output_str, "Unsigned: %u\n", 98765u);
-    printf("%s", output_str);
+//     s21_sprintf(output_str, "Unsigned: %u\n", 98765u);
+//     printf("%s", output_str);
 
-    s21_sprintf(output_str, "Percent: %%\n");
-    printf("%s", output_str);
+//     s21_sprintf(output_str, "Percent: %%\n");
+//     printf("%s", output_str);
 
-    s21_sprintf(output_str, "Scientific Notation: %e\n", 1234.5678);
-    printf("%s", output_str);
+//     s21_sprintf(output_str, "Scientific Notation: %e\n", 1234.5678);
+//     printf("%s", output_str);
 
-    s21_sprintf(output_str, "Hexadecimal: %x\n", 255);
-    printf("%s", output_str);
+//     s21_sprintf(output_str, "Hexadecimal: %x\n", 255);
+//     printf("%s", output_str);
 
-    s21_sprintf(output_str, "Hexadecimal (uppercase): %X\n", 255);
-    printf("%s", output_str);
+//     s21_sprintf(output_str, "Hexadecimal (uppercase): %X\n", 255);
+//     printf("%s", output_str);
 
-    s21_sprintf(output_str, "Octal: %o\n", 255);
-    printf("%s", output_str);
+//     s21_sprintf(output_str, "Octal: %o\n", 255);
+//     printf("%s", output_str);
 
-    int value = 42;
-    s21_sprintf(output_str, "Pointer: %p\n", (void *)(uintptr_t)&value);
-    printf("%s", output_str);
+//     int value = 42;
+//     s21_sprintf(output_str, "Pointer: %p\n", (void *)(uintptr_t)&value);
+//     printf("%s", output_str);
 
-    return 0;
-}
+//     return 0;
+// }

@@ -2,12 +2,9 @@
 #define S21_STRING_H
 #include <stdio.h>
 #include <stdlib.h>
-<<<<<<< HEAD
-=======
 #include <stdarg.h>
 #include <stdint.h>
-#include <string.h>
->>>>>>> fd975c2607398b9debf5474885666691519bbb56
+#include <stdbool.h>
 
 typedef long unsigned s21_size_t;
 #define S21_NULL ((void *)0)
@@ -27,7 +24,10 @@ char *s21_strpbrk(const char *str1, const char *str2);
 char *s21_strrchr(const char *str, int c);
 char *s21_strstr(const char *haystack, const char *needle);
 char *s21_strtok(char *str, const char *delim);
-<<<<<<< HEAD
+void s21_reverse(char *str, int length);
+int s21_itoa(int num, char *str, int base);
+int s21_atoi(const char *str);
+int s21_sprintf(char *output, const char *format, ...);
 
 #define S21EPERM_STR "Operation not permitted"
 #define S21ENOENT_STR "No such file or directory"
@@ -135,17 +135,14 @@ char *s21_strtok(char *str, const char *delim);
 #define S21ENOTRECOVERABLE_STR "State not recoverable"
 #define S21EOWNERDEAD_STR "Previous owner died"
 #define S21EQFULL_STR "Interface output queue is full"
-=======
-typedef struct options{
+typedef struct{
      bool left_justify ;
      bool force_sign;
      bool space_for_positive ;
      bool alternate_form ;
-     bool zero_padding ;
-};
+     bool zero_padding;
+}options;
 #define ERRORS_COUNT 106
->>>>>>> fd975c2607398b9debf5474885666691519bbb56
-
 // const char *errorStrings[] = {S21EPERM_STR,
 //                         S21ENOENT_STR,
 //                         S21ESRCH_STR,

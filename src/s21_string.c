@@ -136,46 +136,69 @@ char *s21_strrchr(const char *str, int c) {
 }
 
 char *s21_strstr(const char *haystack, const char *needle) {
-  char *line = S21_NULL;
-  int j = 0;
-  for (int i = 0; i < (int)s21_strlen(haystack); i++) {
-    if ((int)s21_strlen(needle) == j) {
-      line = (char *)&haystack[i - j];
-      break;
+    int i = 0, j = 0;
+    char *result = S21_NULL;
+    
+    if (needle[0] == '\0') {
+        result = (char *)haystack;
+    } else {
+        for (; haystack[i] != '\0'; i++) {
+            if (haystack[i] == needle[j]) {
+                int index = i;
+                while (haystack[i] == needle[j] && needle[j] != '\0') {
+                    i++;
+                    j++;
+                }
+                if (needle[j] == '\0') {
+                    result = (char *)&haystack[index];
+                    break;
+                } else {
+                    i = index + 1;
+                    j = 0;
+                }
+            }
+        }
     }
-    if (haystack[i] == needle[j]) {
-      j++;
-
-    } else if (j > 0) {
-      j = 0;
-      i--;
-    }
-  }
-  return line;
+    return result;
 }
 
-char *s21_strtok(char *str, const char *delim) {
+char *s21_strtok(char *str, const char *delim) { // to do
   static char *current_position = S21_NULL;
   int check = 1;
+  char *start_position = S21_NULL;
+
   if (str != S21_NULL) {
     current_position = str;
-  }
-  char *start_position = S21_NULL;
-  if (!(current_position == S21_NULL || *current_position == '\0')) {
-    start_position = current_position;
-
-    while (*current_position != '\0' && check) {
-      for (int j = 0; delim[j] != '\0'; j++) {
-        if (*current_position == delim[j]) {
-          *current_position = '\0';
-
-          check = 0;
-          break;
-        }
+  } else if (current_position == S21_NULL || *current_position == '\0') {
+    start_position = S21_NULL;
+  } else if (current_position != S21_NULL) {
+    while (*current_position != '\0') {
+    int isDelim = 0;
+    for (int j = 0; delim[j] != '\0'; j++) {
+      if (*current_position == delim[j]) {
+        isDelim = 1;
+        break;
       }
-      current_position++;
     }
+    if (!isDelim) {
+      start_position = current_position;
+      break;
+    }
+    current_position++;
   }
+
+  while (*current_position != '\0' && check) {
+    for (int j = 0; delim[j] != '\0'; j++) {
+      if (*current_position == delim[j]) {
+        *current_position = '\0';
+        check = 0;
+        break;
+      }
+    }
+    current_position++;
+  }
+  }
+  
 
   return start_position;
 }
