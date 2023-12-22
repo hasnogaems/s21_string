@@ -91,15 +91,17 @@ s21_size_t s21_strcspn(const char *str1, const char *str2) {
   return len;
 }
 
-// char *s21_strerror(int errnum) {
-//   const char *str = S21_NULL;
-//   if (errnum <= 106 && errnum >= 1) {
-//     str = errorStrings[errnum - 1];
-//   } else {
-//     snprintf((char *)str, 50, "Unknown error: %d", errnum);
-//   }
-//   return (char *)str;
-// }
+char *s21_strerror(int errnum) {
+  static char str[100];
+if (errnum == 0) {
+  sprintf(str, "Undefined error: %d", errnum);
+} else if (errnum >= 1 && errnum <= ERRORS_COUNT) {
+  sprintf(str, "%s", list.errorString[errnum - 1]);
+} else {
+  sprintf(str, "Unknown error: %d", errnum);
+}
+return str;
+}
 
 s21_size_t s21_strlen(const char *str) {
   const char *ptr = str;
@@ -165,13 +167,15 @@ char *s21_strstr(const char *haystack, const char *needle) {
 char *s21_strtok(char *str, const char *delim) { // to do
   static char *current_position = S21_NULL;
   int check = 1;
+  int flag=1;
   char *start_position = S21_NULL;
-
   if (str != S21_NULL) {
     current_position = str;
   } else if (current_position == S21_NULL || *current_position == '\0') {
     start_position = S21_NULL;
-  } else if (current_position != S21_NULL) {
+    flag=0;
+  } 
+  if(flag){
     while (*current_position != '\0') {
     int isDelim = 0;
     for (int j = 0; delim[j] != '\0'; j++) {
@@ -198,7 +202,5 @@ char *s21_strtok(char *str, const char *delim) { // to do
     current_position++;
   }
   }
-  
-
   return start_position;
 }

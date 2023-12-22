@@ -5,6 +5,7 @@
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <errno.h>
 
 typedef long unsigned s21_size_t;
 #define S21_NULL ((void *)0)
@@ -44,7 +45,7 @@ int s21_sprintf(char *output, const char *format, ...);
 #define S21EACCES_STR "Permission denied"
 #define S21EFAULT_STR "Bad address"
 #define S21ENOTBLK_STR "Block device required"
-#define S21EBUSY_STR "Device / Resource busy"
+#define S21EBUSY_STR "Resource busy"
 #define S21EEXIST_STR "File exists"
 #define S21EXDEV_STR "Cross-device link"
 #define S21ENODEV_STR "Operation not supported by device"
@@ -111,27 +112,27 @@ int s21_sprintf(char *output, const char *format, ...);
 #define S21EAUTH_STR "Authentication error"
 #define S21ENEEDAUTH_STR "Need authenticator"
 #define S21EPWROFF_STR "Device power is off"
-#define S21EDEVERR_STR "Device error, e.g. paper out"
+#define S21EDEVERR_STR "Device error"
 #define S21EOVERFLOW_STR "Value too large to be stored in data type"
-#define S21EBADEXEC_STR "Bad executable"
+#define S21EBADEXEC_STR "Bad executable (or shared library)"
 #define S21EBADARCH_STR "Bad CPU type in executable"
 #define S21ESHLIBVERS_STR "Shared library version mismatch"
-#define S21EBADMACHO_STR "Malformed Macho file"
+#define S21EBADMACHO_STR "Malformed Mach-o file"
 #define S21ECANCELED_STR "Operation canceled"
 #define S21EIDRM_STR "Identifier removed"
 #define S21ENOMSG_STR "No message of desired type"
 #define S21EILSEQ_STR "Illegal byte sequence"
 #define S21ENOATTR_STR "Attribute not found"
 #define S21EBADMSG_STR "Bad message"
-#define S21EMULTIHOP_STR "Reserved"
+#define S21EMULTIHOP_STR "EMULTIHOP (Reserved)"
 #define S21ENODATA_STR "No message available on STREAM"
-#define S21ENOLINK_STR "Reserved"
+#define S21ENOLINK_STR "ENOLINK (Reserved)"
 #define S21ENOSR_STR "No STREAM resources"
 #define S21ENOSTR_STR "Not a STREAM"
 #define S21EPROTO_STR "Protocol error"
 #define S21ETIME_STR "STREAM ioctl timeout"
 #define S21EOPNOTSUPP_STR "Operation not supported on socket"
-#define S21ENOPOLICY_STR "No such policy registered"
+#define S21ENOPOLICY_STR "Policy not found"
 #define S21ENOTRECOVERABLE_STR "State not recoverable"
 #define S21EOWNERDEAD_STR "Previous owner died"
 #define S21EQFULL_STR "Interface output queue is full"
@@ -142,112 +143,117 @@ typedef struct{
      bool alternate_form ;
      bool zero_padding;
 }options;
+
 #define ERRORS_COUNT 106
-// const char *errorStrings[] = {S21EPERM_STR,
-//                         S21ENOENT_STR,
-//                         S21ESRCH_STR,
-//                         S21EINTR_STR,
-//                         S21EIO_STR,
-//                         S21ENXIO_STR,
-//                         S21E2BIG_STR,
-//                         S21ENOEXEC_STR,
-//                         S21EBADF_STR,
-//                         S21ECHILD_STR,
-//                         S21EDEADLK_STR,
-//                         S21ENOMEM_STR,
-//                         S21EACCES_STR,
-//                         S21EFAULT_STR,
-//                         S21ENOTBLK_STR,
-//                         S21EBUSY_STR,
-//                         S21EEXIST_STR,
-//                         S21EXDEV_STR,
-//                         S21ENODEV_STR,
-//                         S21ENOTDIR_STR,
-//                         S21EISDIR_STR,
-//                         S21EINVAL_STR,
-//                         S21ENFILE_STR,
-//                         S21EMFILE_STR,
-//                         S21ENOTTY_STR,
-//                         S21ETXTBSY_STR,
-//                         S21EFBIG_STR,
-//                         S21ENOSPC_STR,
-//                         S21ESPIPE_STR,
-//                         S21EROFS_STR,
-//                         S21EMLINK_STR,
-//                         S21EPIPE_STR,
-//                         S21EDOM_STR,
-//                         S21ERANGE_STR,
-//                         S21EAGAIN_STR,
-//                         S21EINPROGRESS_STR,
-//                         S21EALREADY_STR,
-//                         S21ENOTSOCK_STR,
-//                         S21EDESTADDRREQ_STR,
-//                         S21EMSGSIZE_STR,
-//                         S21EPROTOTYPE_STR,
-//                         S21ENOPROTOOPT_STR,
-//                         S21EPROTONOSUPPORT_STR,
-//                         S21ESOCKTNOSUPPORT_STR,
-//                         S21ENOTSUP_STR,
-//                         S21EPFNOSUPPORT_STR,
-//                         S21EAFNOSUPPORT_STR,
-//                         S21EADDRINUSE_STR,
-//                         S21EADDRNOTAVAIL_STR,
-//                         S21ENETDOWN_STR,
-//                         S21ENETUNREACH_STR,
-//                         S21ENETRESET_STR,
-//                         S21ECONNABORTED_STR,
-//                         S21ECONNRESET_STR,
-//                         S21ENOBUFS_STR,
-//                         S21EISCONN_STR,
-//                         S21ENOTCONN_STR,
-//                         S21ESHUTDOWN_STR,
-//                         S21ETOOMANYREFS_STR,
-//                         S21ETIMEDOUT_STR,
-//                         S21ECONNREFUSED_STR,
-//                         S21ELOOP_STR,
-//                         S21ENAMETOOLONG_STR,
-//                         S21EHOSTDOWN_STR,
-//                         S21ENOROUTE_STR,
-//                         S21ENOTEMPTY_STR,
-//                         S21EPROCLIM_STR,
-//                         S21EUSERS_STR,
-//                         S21EDQUOT_STR,
-//                         S21ESTALE_STR,
-//                         S21EREMOTE_STR,
-//                         S21EBADRPC_STR,
-//                         S21ERPCMISMATCH_STR,
-//                         S21EPROGUNAVAIL_STR,
-//                         S21EPROGMISMATCH_STR,
-//                         S21EPROCUNAVAIL_STR,
-//                         S21ENOLCK_STR,
-//                         S21ENOSYS_STR,
-//                         S21EFTYPE_STR,
-//                         S21EAUTH_STR,
-//                         S21ENEEDAUTH_STR,
-//                         S21EPWROFF_STR,
-//                         S21EDEVERR_STR,
-//                         S21EOVERFLOW_STR,
-//                         S21EBADEXEC_STR,
-//                         S21EBADARCH_STR,
-//                         S21ESHLIBVERS_STR,
-//                         S21EBADMACHO_STR,
-//                         S21ECANCELED_STR,
-//                         S21EIDRM_STR,
-//                         S21ENOMSG_STR,
-//                         S21EILSEQ_STR,
-//                         S21ENOATTR_STR,
-//                         S21EBADMSG_STR,
-//                         S21EMULTIHOP_STR,
-//                         S21ENODATA_STR,
-//                         S21ENOLINK_STR,
-//                         S21ENOSR_STR,
-//                         S21ENOSTR_STR,
-//                         S21EPROTO_STR,
-//                         S21ETIME_STR,
-//                         S21EOPNOTSUPP_STR,
-//                         S21ENOPOLICY_STR,
-//                         S21ENOTRECOVERABLE_STR,
-//                         S21EOWNERDEAD_STR,
-//                         S21EQFULL_STR};
+
+typedef struct {
+     const char *errrorString[ERRORS_COUNT];
+} errors;
+errors list = {S21EPERM_STR,
+                        S21ENOENT_STR,
+                        S21ESRCH_STR,
+                        S21EINTR_STR,
+                        S21EIO_STR,
+                        S21ENXIO_STR,
+                        S21E2BIG_STR,
+                        S21ENOEXEC_STR,
+                        S21EBADF_STR,
+                        S21ECHILD_STR,
+                        S21EDEADLK_STR,
+                        S21ENOMEM_STR,
+                        S21EACCES_STR,
+                        S21EFAULT_STR,
+                        S21ENOTBLK_STR,
+                        S21EBUSY_STR,
+                        S21EEXIST_STR,
+                        S21EXDEV_STR,
+                        S21ENODEV_STR,
+                        S21ENOTDIR_STR,
+                        S21EISDIR_STR,
+                        S21EINVAL_STR,
+                        S21ENFILE_STR,
+                        S21EMFILE_STR,
+                        S21ENOTTY_STR,
+                        S21ETXTBSY_STR,
+                        S21EFBIG_STR,
+                        S21ENOSPC_STR,
+                        S21ESPIPE_STR,
+                        S21EROFS_STR,
+                        S21EMLINK_STR,
+                        S21EPIPE_STR,
+                        S21EDOM_STR,
+                        S21ERANGE_STR,
+                        S21EAGAIN_STR,
+                        S21EINPROGRESS_STR,
+                        S21EALREADY_STR,
+                        S21ENOTSOCK_STR,
+                        S21EDESTADDRREQ_STR,
+                        S21EMSGSIZE_STR,
+                        S21EPROTOTYPE_STR,
+                        S21ENOPROTOOPT_STR,
+                        S21EPROTONOSUPPORT_STR,
+                        S21ESOCKTNOSUPPORT_STR,
+                        S21ENOTSUP_STR,
+                        S21EPFNOSUPPORT_STR,
+                        S21EAFNOSUPPORT_STR,
+                        S21EADDRINUSE_STR,
+                        S21EADDRNOTAVAIL_STR,
+                        S21ENETDOWN_STR,
+                        S21ENETUNREACH_STR,
+                        S21ENETRESET_STR,
+                        S21ECONNABORTED_STR,
+                        S21ECONNRESET_STR,
+                        S21ENOBUFS_STR,
+                        S21EISCONN_STR,
+                        S21ENOTCONN_STR,
+                        S21ESHUTDOWN_STR,
+                        S21ETOOMANYREFS_STR,
+                        S21ETIMEDOUT_STR,
+                        S21ECONNREFUSED_STR,
+                        S21ELOOP_STR,
+                        S21ENAMETOOLONG_STR,
+                        S21EHOSTDOWN_STR,
+                        S21ENOROUTE_STR,
+                        S21ENOTEMPTY_STR,
+                        S21EPROCLIM_STR,
+                        S21EUSERS_STR,
+                        S21EDQUOT_STR,
+                        S21ESTALE_STR,
+                        S21EREMOTE_STR,
+                        S21EBADRPC_STR,
+                        S21ERPCMISMATCH_STR,
+                        S21EPROGUNAVAIL_STR,
+                        S21EPROGMISMATCH_STR,
+                        S21EPROCUNAVAIL_STR,
+                        S21ENOLCK_STR,
+                        S21ENOSYS_STR,
+                        S21EFTYPE_STR,
+                        S21EAUTH_STR,
+                        S21ENEEDAUTH_STR,
+                        S21EPWROFF_STR,
+                        S21EDEVERR_STR,
+                        S21EOVERFLOW_STR,
+                        S21EBADEXEC_STR,
+                        S21EBADARCH_STR,
+                        S21ESHLIBVERS_STR,
+                        S21EBADMACHO_STR,
+                        S21ECANCELED_STR,
+                        S21EIDRM_STR,
+                        S21ENOMSG_STR,
+                        S21EILSEQ_STR,
+                        S21ENOATTR_STR,
+                        S21EBADMSG_STR,
+                        S21EMULTIHOP_STR,
+                        S21ENODATA_STR,
+                        S21ENOLINK_STR,
+                        S21ENOSR_STR,
+                        S21ENOSTR_STR,
+                        S21EPROTO_STR,
+                        S21ETIME_STR,
+                        S21EOPNOTSUPP_STR,
+                        S21ENOPOLICY_STR,
+                        S21ENOTRECOVERABLE_STR,
+                        S21EOWNERDEAD_STR,
+                        S21EQFULL_STR};
 
 #endif // S21_STRING_H

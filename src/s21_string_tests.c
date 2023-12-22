@@ -1372,18 +1372,18 @@ START_TEST(strtok_20) {
 }
 END_TEST
 
-// START_TEST(strerror_1) {
-//   for (int i = 0; i < 150; i++) {
-//     ck_assert_str_eq(strerror(i), s21_strerror(i));
-//   }
-// }
-// END_TEST
+START_TEST(strerror_1) {
+  for (int i = 0; i < 150; i++) {
+    ck_assert_str_eq(strerror(i), s21_strerror(i));
+  }
+}
+END_TEST
 
-// START_TEST(strerror_2) {
-//   int n = -1;
-//   ck_assert_str_eq(strerror(n), s21_strerror(n));
-// }
-// END_TEST
+START_TEST(strerror_2) {
+  int n = -1;
+  ck_assert_str_eq(strerror(n), s21_strerror(n));
+}
+END_TEST
 
 Suite *s21_string_suite(void) {
   Suite *suite;
@@ -1559,8 +1559,8 @@ Suite *s21_string_suite(void) {
   tcase_add_test(tcase_core, strtok_19);
   tcase_add_test(tcase_core, strtok_20);
 
-  // tcase_add_test(tcase_core, strerror_1);
-  // tcase_add_test(tcase_core, strerror_2);
+  tcase_add_test(tcase_core, strerror_1);
+  tcase_add_test(tcase_core, strerror_2);
 
   suite_add_tcase(suite, tcase_core);
 
