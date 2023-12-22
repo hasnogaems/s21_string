@@ -5,7 +5,7 @@
 #include <string.h>
 #include <wchar.h>
 
-#include "s21_string.h"
+#include "../s21_string.h"
 
 START_TEST(memchr_1) {
   char str[] = "Hello, world!";

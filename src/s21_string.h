@@ -5,7 +5,7 @@
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include <errno.h>
+#include <wchar.h>
 
 typedef long unsigned s21_size_t;
 #define S21_NULL ((void *)0)
@@ -28,7 +28,7 @@ char *s21_strtok(char *str, const char *delim);
 void s21_reverse(char *str, int length);
 int s21_itoa(int num, char *str, int base);
 int s21_atoi(const char *str);
-int s21_sprintf(char *output, const char *format, ...);
+int s21_sprintf(char *str, const char *format, ...);
 
 #define S21EPERM_STR "Operation not permitted"
 #define S21ENOENT_STR "No such file or directory"

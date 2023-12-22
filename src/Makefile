@@ -17,6 +17,7 @@ test1: string.o s21_string.o
 
 test2: test_sprintf_c.o s21_string.o
 	$(CC) $(CFLAGS) $(CCOVTEST) $^ $(LIBS) -o $@ -lcheck -lm -lpthread
+	./test2
 
 test_sprintf_c.o: s21_string.h
 	$(CC) $(CFLAGS) $(CCOVTEST) -I. -c tests/test_sprintf_c.c -o $@
@@ -54,3 +55,4 @@ clean:
 	rm -f -R report
 rebuild: clean all
 	clear
+r:clean test2
