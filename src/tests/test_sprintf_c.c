@@ -74,7 +74,7 @@ END_TEST
 START_TEST(sprintf_6_c) {
   char str1[100];
   char str2[100];
-  char *str3 = "%05c Test % 5c Test %lc Test";
+  char *str3 = "%5c Test %5c Test %lc Test";
   int a = 70;
   unsigned long int b = 70;
   ck_assert_int_eq(sprintf(str1, str3, a, a, b),
@@ -286,4 +286,12 @@ Suite *test_sprintf_c(void) {
 
   suite_add_tcase(s, tc);
   return s;
+}
+int main(void) {
+  Suite *suite = test_sprintf_c();
+  SRunner *suite_runner = srunner_create(suite);
+  srunner_run_all(suite_runner, CK_VERBOSE);
+  int failed_count = srunner_ntests_failed(suite_runner);
+  srunner_free(suite_runner);
+  return (failed_count == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

@@ -136,33 +136,33 @@ char *s21_strrchr(const char *str, int c) {
 }
 
 char *s21_strstr(const char *haystack, const char *needle) {
-    int i = 0, j = 0;
-    char *result = S21_NULL;
-    
-    if (needle[0] == '\0') {
-        result = (char *)haystack;
-    } else {
-        for (; haystack[i] != '\0'; i++) {
-            if (haystack[i] == needle[j]) {
-                int index = i;
-                while (haystack[i] == needle[j] && needle[j] != '\0') {
-                    i++;
-                    j++;
-                }
-                if (needle[j] == '\0') {
-                    result = (char *)&haystack[index];
-                    break;
-                } else {
-                    i = index + 1;
-                    j = 0;
-                }
-            }
+  int i = 0, j = 0;
+  char *result = S21_NULL;
+
+  if (needle[0] == '\0') {
+    result = (char *)haystack;
+  } else {
+    for (; haystack[i] != '\0'; i++) {
+      if (haystack[i] == needle[j]) {
+        int index = i;
+        while (haystack[i] == needle[j] && needle[j] != '\0') {
+          i++;
+          j++;
         }
+        if (needle[j] == '\0') {
+          result = (char *)&haystack[index];
+          break;
+        } else {
+          i = index + 1;
+          j = 0;
+        }
+      }
     }
-    return result;
+  }
+  return result;
 }
 
-char *s21_strtok(char *str, const char *delim) { // to do
+char *s21_strtok(char *str, const char *delim) {  // to do
   static char *current_position = S21_NULL;
   int check = 1;
   char *start_position = S21_NULL;
@@ -173,32 +173,209 @@ char *s21_strtok(char *str, const char *delim) { // to do
     start_position = S21_NULL;
   } else if (current_position != S21_NULL) {
     while (*current_position != '\0') {
-    int isDelim = 0;
-    for (int j = 0; delim[j] != '\0'; j++) {
-      if (*current_position == delim[j]) {
-        isDelim = 1;
+      int isDelim = 0;
+      for (int j = 0; delim[j] != '\0'; j++) {
+        if (*current_position == delim[j]) {
+          isDelim = 1;
+          break;
+        }
+      }
+      if (!isDelim) {
+        start_position = current_position;
         break;
       }
+      current_position++;
     }
-    if (!isDelim) {
-      start_position = current_position;
-      break;
-    }
-    current_position++;
-  }
 
-  while (*current_position != '\0' && check) {
-    for (int j = 0; delim[j] != '\0'; j++) {
-      if (*current_position == delim[j]) {
-        *current_position = '\0';
-        check = 0;
-        break;
+    while (*current_position != '\0' && check) {
+      for (int j = 0; delim[j] != '\0'; j++) {
+        if (*current_position == delim[j]) {
+          *current_position = '\0';
+          check = 0;
+          break;
+        }
       }
+      current_position++;
     }
-    current_position++;
   }
-  }
-  
 
   return start_position;
+}
+// saipa
+void s21_reverse(char *str, int length) {
+    int start = 0;
+    int end = length - 1;
+    while (start < end) {
+        char temp = str[start];
+        str[start] = str[end];
+        str[end] = temp;
+        start++;
+        end--;
+    }
+}
+
+int s21_itoa(int num, char *str, int base) {
+    int i = 0;
+    int isNegative = 0;
+
+    if (num == 0) {
+        str[i++] = '0';
+        str[i] = '\0';
+        return i;
+    }
+
+    if (num < 0 && base == 10) {
+        isNegative = 1;
+        num = -num;
+    }
+
+    while (num != 0) {
+        int rem = num % base;
+        str[i++] = (rem > 9) ? (rem - 10) + 'a' : rem + '0';
+        num = num / base;
+    }
+
+    if (isNegative) {
+        str[i++] = '-';
+    }
+
+    str[i] = '\0';
+
+    s21_reverse(str, i);
+
+    return i;
+}
+
+int s21_atoi(const char *str) {
+    int result = 0;
+    int sign = 1;
+    int i = 0;
+
+    if (str[0] == '-') {
+        sign = -1;
+        i++;
+    }
+
+    while (str[i] != '\0') {
+        result = result * 10 + str[i] - '0';
+        i++;
+    }
+
+    return sign * result;
+}
+
+int s21_sprintf(char *output, const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+
+    int chars_written = 0;
+            // Flags
+            int left_justify = 0;
+            // int force_sign = 0;
+            // int space_for_positive = 0;
+            // int alternate_form = 0;
+            int zero_padding = 0;
+    while (*format != '\0') {
+        if (*format == '%') {
+            format++;
+
+
+
+            while (*format == '-' || *format == '+' || *format == ' ' ||
+                   *format == '#' || *format == '0') {
+                if (*format == '-') {
+                    left_justify = 1;
+                } 
+                // else if (*format == '+') {
+                //     force_sign = 1;
+                // } else if (*format == ' ') {
+                //     space_for_positive = 1;
+                // } else if (*format == '#') {
+                //     alternate_form = 1;
+                // }
+                 else if (*format == '0') {
+                    zero_padding = 1;
+                }
+                format++;
+            }
+
+            // Width
+            int width = 0;
+            if (*format == '*') {
+                width = va_arg(args, int);
+                format++;
+            } else {
+                while (*format >= '0' && *format <= '9') {
+                    width = width * 10 + (*format - '0');
+                    format++;
+                }
+            }
+
+            // Length
+           // int long_double = 0;
+            while (*format == 'l' || *format == 'L') {
+                //long_double = 1;
+                format++;
+            }
+
+            // Specifier
+            switch (*format) {
+                case 'c': {
+                    wchar_t ch = (wchar_t)va_arg(args, wint_t);
+
+                    // Handle width
+                    int padding = (width > 1) ? width - 1 : 0;
+
+                    if (!left_justify && !zero_padding) {
+                        while (padding > 0) {
+                            *output = ' ';
+                            output++;
+                            chars_written++;
+                            padding--;
+                        }
+                    }
+
+                    // Write the character
+                    *output = (char)ch;
+                    output++;
+                    chars_written++;
+
+                    if (left_justify) {
+                        while (padding > 0) {
+                            *output = ' ';
+                            output++;
+                            chars_written++;
+                            padding--;
+                        }
+                    }
+
+                    break;
+                }
+                case 'd':
+                case 'i': {
+                    int num = va_arg(args, int);
+                    int written = s21_itoa(num, output, 10);
+                    output += written;
+                    chars_written += written;
+                    break;
+                }
+                // ... (other cases for different specifiers)
+                default:
+                    // Handle unsupported specifiers if needed.
+                    break;
+            }
+        } else {
+            *output = *format;
+            output++;
+            chars_written++;
+        }
+
+        format++;
+    }
+
+    va_end(args);
+
+    *output = '\0';  // Null-terminate the output string
+
+    return chars_written;
 }
