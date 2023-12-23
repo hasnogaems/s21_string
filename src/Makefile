@@ -11,29 +11,15 @@ s21_string.a: s21_string.o
 s21_string.o: s21_string.c s21_string.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-test1: string.o s21_string.o
-	$(CC) $(CFLAGS)  $^ $(LIBS) -o $@ -lcheck -lm -lpthread
-	./test1
-
-test2: test_sprintf_c.o s21_string.o
-	$(CC) $(CFLAGS) $(CCOVTEST) $^ $(LIBS) -o $@ -lcheck -lm -lpthread
-	./test2
-
-test_sprintf_c.o: s21_string.h
-	$(CC) $(CFLAGS) $(CCOVTEST) -I. -c tests/test_sprintf_c.c -o $@
-
 test: test_s21_string.o s21_string.o
 	$(CC) $(CFLAGS) $(CCOVTEST) $^ $(LIBS) -o $@ -lcheck -lm -lpthread
 	./test
 
-test_s21_string.o: nw/s21_string_tests.c s21_string.h
+test_s21_string.o: s21_string_tests.c s21_string.h
 	$(CC) $(CFLAGS) $(CCOVTEST) -I. -c $< -o $@
 
-string.o: nw/string.c s21_string.h
-	$(CC) $(CFLAGS) -I. -c $< -o $@
-
-gcov_report: test s21_math.a
-	$(CC) $(CFLAGS) -pedantic -lcheck $(CCOVTEST) test_s21_math.c s21_math.a -o $@
+gcov_report: test s21_string.a
+	$(CC) $(CFLAGS) -pedantic -lcheck $(CCOVTEST) s21_string_tests.c s21_string.a -o $@
 	./gcov_report
 	lcov -t gcov_report -o test.info -c -d .
 	genhtml -o report test.info
@@ -46,13 +32,11 @@ clang:
 clean:
 	rm -f *.a
 	rm -f *.o
-	rm -f test1
 	rm -f test
 	rm -f *.gc*
 	rm -f gcov_report.html
 	rm -f gcov_report
 	rm -f test.info
 	rm -f -R report
+
 rebuild: clean all
-	clear
-r:clean test2
