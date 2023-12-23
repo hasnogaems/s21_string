@@ -209,11 +209,11 @@ char *s21_strerror(int errnum) {
                   S21EQFULL_STR}};
   static char str[100];
   if (errnum == 0) {
-    sprintf(str, "Undefined error: %d", errnum);
+    s21_sprintf(str, "Undefined error: %d", errnum);
   } else if (errnum >= 1 && errnum <= ERRORS_COUNT) {
-    sprintf(str, "%s", list.stringErrors[errnum - 1]);
+    s21_sprintf(str, "%s", list.stringErrors[errnum - 1]);
   } else {
-    sprintf(str, "Unknown error: %d", errnum);
+    s21_sprintf(str, "Unknown error: %d", errnum);
   }
   return str;
 }

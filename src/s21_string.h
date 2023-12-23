@@ -2,12 +2,7 @@
 #define S21_STRING_H
 #include <stdarg.h>
 #include <stdbool.h>
-#include <stdint.h>
-#include <stdio.h>
 #include <stdlib.h>
-#include <wchar.h>
-
-#include "math.h"
 
 typedef long unsigned s21_size_t;
 #define S21_NULL ((void *)0)
