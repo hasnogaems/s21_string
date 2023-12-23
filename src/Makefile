@@ -26,10 +26,10 @@ test: test_s21_string.o s21_string.o
 	$(CC) $(CFLAGS) $(CCOVTEST) $^ $(LIBS) -o $@ -lcheck -lm -lpthread
 	./test
 
-test_s21_string.o: s21_string_tests.c s21_string.h
+test_s21_string.o: nw/s21_string_tests.c s21_string.h
 	$(CC) $(CFLAGS) $(CCOVTEST) -I. -c $< -o $@
 
-string.o: string.c s21_string.h
+string.o: nw/string.c s21_string.h
 	$(CC) $(CFLAGS) -I. -c $< -o $@
 
 gcov_report: test s21_math.a
