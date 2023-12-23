@@ -5,7 +5,7 @@
 #include <string.h>
 #include <wchar.h>
 
-#include "s21_string.h"
+#include "../s21_string.h"
 
 START_TEST(memchr_1) {
   char str[] = "Hello, world!";
@@ -1372,12 +1372,12 @@ START_TEST(strtok_20) {
 }
 END_TEST
 
-// START_TEST(strerror_1) {
-//   for (int i = 0; i < 150; i++) {
-//     ck_assert_str_eq(strerror(i), s21_strerror(i));
-//   }
-// }
-// END_TEST
+START_TEST(strerror_1) {
+  for (int i = 0; i < 150; i++) {
+    ck_assert_str_eq(strerror(i), s21_strerror(i));
+  }
+}
+END_TEST
 
 // START_TEST(strerror_2) {
 //   int n = -1;
