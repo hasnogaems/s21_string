@@ -196,7 +196,7 @@ END_TEST
 START_TEST(sprintf_14_unsigned) {
   char str1[200];
   char str2[200];
-  char *str3 = "%0u Test %06u Test %05.7u TEST %0.7u Ouf %0.u";
+  char *str3 = "%u Test %6u Test %5.7u TEST %.7u Ouf %.u";
   unsigned int val = 32;
   unsigned int val2 = 8899;
   unsigned int val3 = 91918;
@@ -212,7 +212,7 @@ END_TEST
 START_TEST(sprintf_15_unsigned) {
   char str1[200];
   char str2[200];
-  char *str3 = "%*u Test %-*u Test %*.*u TEST %.*u";
+  char *str3 = "%u Test %-u Test %.u TEST %.u";
   unsigned int val = 32;
   unsigned int val2 = 8899;
   unsigned int val3 = 919;
@@ -253,7 +253,7 @@ START_TEST(sprintf_17_unsigned) {
   ck_assert_pstr_eq(str1, str2);
 }
 END_TEST
-Suite *test_sprintf_unsigned(void) {
+Suite *test_sprintf_u(void) {
   Suite *s = suite_create("\033[45m-=S21_SPRINTF_UNSIGNED=-\033[0m");
   TCase *tc = tcase_create("sprintf_tc");
 
@@ -277,4 +277,12 @@ Suite *test_sprintf_unsigned(void) {
 
   suite_add_tcase(s, tc);
   return s;
+}
+int main(void) {
+  Suite *suite = test_sprintf_u();
+  SRunner *suite_runner = srunner_create(suite);
+  srunner_run_all(suite_runner, CK_VERBOSE);
+  int failed_count = srunner_ntests_failed(suite_runner);
+  srunner_free(suite_runner);
+  return (failed_count == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

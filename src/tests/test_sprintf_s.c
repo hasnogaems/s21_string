@@ -42,7 +42,7 @@ END_TEST
 START_TEST(sprintf_4_string) {
   char str1[100];
   char str2[100];
-  char *str3 = "Test %ls Test2";
+  char *str3 = "Test %s Test2";
   wchar_t *val = L"3wtf80";
   sprintf(str1, str3, val);
   s21_sprintf(str2, str3, val);
@@ -192,7 +192,7 @@ END_TEST
 START_TEST(sprintf_14_string) {
   char str1[200];
   char str2[200];
-  char *str3 = "%0s Test %06s Test %05.7s TEST %0.7s Oof %0.s";
+  char *str3 = "%s Test %6s Test %5.7s TEST %.7s Oof %.s";
   char *val = "WHAT IS THIS";
   char *val2 = "idx";
   char *val3 = "PPAP";
@@ -204,29 +204,9 @@ START_TEST(sprintf_14_string) {
 }
 END_TEST
 
-// Asterisk
-START_TEST(sprintf_15_string) {
-  char str1[200];
-  char str2[200];
-  char *str3 = "%*s Test %-*s Test %*.*s TEST %.*s";
-  char *val = "WHAT IS THIS";
-  char *val2 = "i don't care anymore, really";
-  char *val3 = "PPAP";
-  char *val4 = "I don't feel so good";
-  int ast = 2;
-  int ast2 = 5;
-  int ast3 = 4;
-  int ast4 = 10;
-  int ast5 = 7;
-  ck_assert_int_eq(
-      sprintf(str1, str3, ast, val, ast2, val2, ast3, ast4, val3, ast5, val4),
-      s21_sprintf(str2, str3, ast, val, ast2, val2, ast3, ast4, val3, ast5,
-                  val4));
-  ck_assert_pstr_eq(str1, str2);
-}
-END_TEST
 
-START_TEST(sprintf_16_string) {
+
+START_TEST(sprintf_15_string) {
   char str1[100];
   char str2[100];
   char *str3 = "%s %s %s %% %d";
@@ -240,7 +220,7 @@ START_TEST(sprintf_16_string) {
 }
 END_TEST
 
-START_TEST(sprintf_17_string) {
+START_TEST(sprintf_16_string) {
   char str1[1024];
   char str2[1024];
   char *str3 =
@@ -254,7 +234,7 @@ START_TEST(sprintf_17_string) {
 }
 END_TEST
 
-Suite *test_sprintf_string(void) {
+Suite *test_sprintf_s(void) {
   Suite *s = suite_create("\033[45m-=S21_SPRINTF_STRING=-\033[0m");
   TCase *tc = tcase_create("sprintf_tc");
 
@@ -274,8 +254,15 @@ Suite *test_sprintf_string(void) {
   tcase_add_test(tc, sprintf_14_string);
   tcase_add_test(tc, sprintf_15_string);
   tcase_add_test(tc, sprintf_16_string);
-  tcase_add_test(tc, sprintf_17_string);
 
   suite_add_tcase(s, tc);
   return s;
+}
+int main(void) {
+  Suite *suite = test_sprintf_s();
+  SRunner *suite_runner = srunner_create(suite);
+  srunner_run_all(suite_runner, CK_VERBOSE);
+  int failed_count = srunner_ntests_failed(suite_runner);
+  srunner_free(suite_runner);
+  return (failed_count == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

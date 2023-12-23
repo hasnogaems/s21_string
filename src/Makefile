@@ -15,12 +15,15 @@ test1: string.o s21_string.o
 	$(CC) $(CFLAGS)  $^ $(LIBS) -o $@ -lcheck -lm -lpthread
 	./test1
 
-test2: test_sprintf_c.o s21_string.o
+test2: tests.o s21_string.o
 	$(CC) $(CFLAGS) $(CCOVTEST) $^ $(LIBS) -o $@ -lcheck -lm -lpthread
 	./test2
 
-test_sprintf_c.o: s21_string.h
-	$(CC) $(CFLAGS) $(CCOVTEST) -I. -c tests/test_sprintf_c.c -o $@
+tests.o: s21_string.h
+	$(CC) $(CFLAGS) $(CCOVTEST) -I. -c nw/s21_string_tests.c -o $@
+
+test_sprintf_d.o: s21_string.h
+	$(CC) $(CFLAGS) $(CCOVTEST) -I. -c tests/test_sprintf_d.c -o $@
 
 test: test_s21_string.o s21_string.o
 	$(CC) $(CFLAGS) $(CCOVTEST) $^ $(LIBS) -o $@ -lcheck -lm -lpthread

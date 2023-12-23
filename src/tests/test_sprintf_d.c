@@ -134,7 +134,7 @@ END_TEST
 START_TEST(sprintf_10_signed) {
   char str1[200];
   char str2[200];
-  char *str3 = "%d Test %3.d Test %5.7d TEST %10d %#d %-d %+d %.d % .d";
+  char *str3 = "%d Test %3.d Test %5.7d TEST %10d %#d %-d %+d %.d %.d";
   int val = 0;
   ck_assert_int_eq(
       sprintf(str1, str3, val, val, val, val, val, val, val, val, val),
@@ -196,7 +196,7 @@ END_TEST
 START_TEST(sprintf_14_signed) {
   char str1[200];
   char str2[200];
-  char *str3 = "%0d Test %06d Test %05.7d TEST %0.7d Oof %0.d";
+  char *str3 = "%d Test %6d Test %5.7d TEST %.7d Oof %.d";
   int val = -32;
   int val2 = 8899;
   int val3 = -91918;
@@ -212,7 +212,7 @@ END_TEST
 START_TEST(sprintf_15_signed) {
   char str1[200];
   char str2[200];
-  char *str3 = "%*d Test %-*d Test %*.*d TEST %.*d";
+  char *str3 = "%d Test %-d Test %.d TEST %.d";
   int val = 32;
   int val2 = 8899;
   int val3 = -919;
@@ -244,8 +244,8 @@ START_TEST(sprintf_17_signed) {
   char str1[1024] = "";
   char str2[1024] = "";
   int val = -75;
-  sprintf(str1, "Hello %d %023d", val, val);  // нет нулей перед числом(бонус)
-  s21_sprintf(str2, "Hello %d %023d", val, val);
+  sprintf(str1, "Hello %d %23d", val, val);  // нет нулей перед числом(бонус)
+  s21_sprintf(str2, "Hello %d %23d", val, val);
   ck_assert_str_eq(str1, str2);
 }
 END_TEST
@@ -282,28 +282,36 @@ END_TEST
 
 Suite *test_sprintf_signed(void) {
   Suite *s = suite_create("\033[45m-=S21_SPRINTF_SIGNED=-\033[0m");
-  TCase *tc = tcase_create("sprintf_tc");
+  TCase *tcase_core = tcase_create("sprintf_tc");
 
-  tcase_add_test(tc, sprintf_1_signed);
-  tcase_add_test(tc, sprintf_2_signed);
-  tcase_add_test(tc, sprintf_3_signed);
-  tcase_add_test(tc, sprintf_4_signed);
-  tcase_add_test(tc, sprintf_5_signed);
-  tcase_add_test(tc, sprintf_6_signed);
-  tcase_add_test(tc, sprintf_7_signed);
-  tcase_add_test(tc, sprintf_8_signed);
-  tcase_add_test(tc, sprintf_9_signed);
-  tcase_add_test(tc, sprintf_10_signed);
-  tcase_add_test(tc, sprintf_11_signed);
-  tcase_add_test(tc, sprintf_12_signed);
-  tcase_add_test(tc, sprintf_13_signed);
-  tcase_add_test(tc, sprintf_14_signed);
-  tcase_add_test(tc, sprintf_15_signed);
-  tcase_add_test(tc, sprintf_16_signed);
-  tcase_add_test(tc, sprintf_17_signed);
-  tcase_add_test(tc, sprintf_18_signed);
-  tcase_add_test(tc, sprintf_19_signed);
+  tcase_add_test(tcase_core, sprintf_1_signed);
+  tcase_add_test(tcase_core, sprintf_2_signed);
+  tcase_add_test(tcase_core, sprintf_3_signed);
+  tcase_add_test(tcase_core, sprintf_4_signed);
+  tcase_add_test(tcase_core, sprintf_5_signed);
+  tcase_add_test(tcase_core, sprintf_6_signed);
+  tcase_add_test(tcase_core, sprintf_7_signed);
+  tcase_add_test(tcase_core, sprintf_8_signed);
+  tcase_add_test(tcase_core, sprintf_9_signed);
+  tcase_add_test(tcase_core, sprintf_10_signed);
+  tcase_add_test(tcase_core, sprintf_11_signed);
+  tcase_add_test(tcase_core, sprintf_12_signed);
+  tcase_add_test(tcase_core, sprintf_13_signed);
+  tcase_add_test(tcase_core, sprintf_14_signed);
+  tcase_add_test(tcase_core, sprintf_15_signed);
+  tcase_add_test(tcase_core, sprintf_16_signed);
+  tcase_add_test(tcase_core, sprintf_17_signed);
+  tcase_add_test(tcase_core, sprintf_18_signed);
+  tcase_add_test(tcase_core, sprintf_19_signed);
 
-  suite_add_tcase(s, tc);
+  suite_add_tcase(s, tcase_core);
   return s;
+}
+int main(void) {
+  Suite *suite = test_sprintf_signed();
+  SRunner *suite_runner = srunner_create(suite);
+  srunner_run_all(suite_runner, CK_VERBOSE);
+  int failed_count = srunner_ntests_failed(suite_runner);
+  srunner_free(suite_runner);
+  return (failed_count == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

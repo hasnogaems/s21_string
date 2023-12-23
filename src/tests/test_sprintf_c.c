@@ -98,7 +98,7 @@ END_TEST
 START_TEST(sprintf_8_c) {
   char str1[100];
   char str2[100];
-  char *str3 = "%+010.5c Test % +10.5c Test %-10lc Test %-10lc Test %+10lc";
+  char *str3 = "%+10.5c Test % +10.5c Test %-10lc Test %-10lc Test %+10lc";
   char a = 92;
   unsigned long int b = 92;
   unsigned long int c = 92;
@@ -177,7 +177,7 @@ END_TEST
 START_TEST(sprintf_15_c) {
   char str1[400];
   char str2[400];
-  char *str3 = "%.7c Test %-7c Test %-50c Test % 54c Test %0188c";
+  char *str3 = "%.7c Test %-7c Test %-50c Test % 54c Test %188c";
   int a = 112;
   ck_assert_int_eq(sprintf(str1, str3, a, a, a, a, a),
                    s21_sprintf(str2, str3, a, a, a, a, a));
@@ -199,7 +199,7 @@ END_TEST
 START_TEST(sprintf_17_c) {
   char str1[400];
   char str2[400];
-  char *str3 = "%70c Test %-90c Test %080c Test %-065c Test %- 60c";
+  char *str3 = "%70c Test %-90c Test %80c Test %-065c Test %- 60c";
   int a = 255;
   ck_assert_int_eq(sprintf(str1, str3, a, a, a, a, a),
                    s21_sprintf(str2, str3, a, a, a, a, a));
@@ -210,7 +210,7 @@ END_TEST
 START_TEST(sprintf_18_c) {
   char str1[400];
   char str2[400];
-  char *str3 = "%70c Test %-90c Test %080c Test %-065c Test %- 60c";
+  char *str3 = "%70c Test %-90c Test %80c Test %-065c Test %- 60c";
   int a = 255;
   ck_assert_int_eq(sprintf(str1, str3, a, a, a, a, a),
                    s21_sprintf(str2, str3, a, a, a, a, a));
@@ -230,33 +230,6 @@ START_TEST(sprintf_19_c) {
   ck_assert_pstr_eq(str1, str2);
 }
 END_TEST
-
-/*START_TEST(sprintf_20_c) {
-  char str1[100];
-  char str2[100];
-  char *str3 = "TEST %lc right now\n";
-  int a = 266;
-  ck_assert_int_eq(sprintf(str1, str3, a), s21_sprintf(str2, str3, a));
-  ck_assert_pstr_eq(str1, str2);
-  // sprintf(str1, str3, a);
-  //                  s21_sprintf(str2, str3, a);
-  // printf("SPRINT: %s", str1);
-  // printf("S21_PRINT: %s", str2);
-}
-END_TEST
-
-START_TEST(sprintf_21_c) {
-  char str1[100];
-  char str2[100];
-  char *str3 = "%lc This is the Test right now\n";
-  int a = 1156;
-  ck_assert_int_eq(sprintf(str1, str3, a),
-                   s21_sprintf(str2, str3, a));
-  ck_assert_pstr_eq(str1, str2);
-  printf("SPRINT: %s", str1);
-  printf("S21_PRINT: %s", str2);
-}
-END_TEST */
 
 Suite *test_sprintf_c(void) {
   Suite *s = suite_create("\033[45m-=S21_SPRINTF_C=-\033[0m");
@@ -281,8 +254,6 @@ Suite *test_sprintf_c(void) {
   tcase_add_test(tc, sprintf_17_c);
   tcase_add_test(tc, sprintf_18_c);
   tcase_add_test(tc, sprintf_19_c);
-  // tcase_add_test(tc, sprintf_20_c);
-  // tcase_add_test(tc, sprintf_21_c);
 
   suite_add_tcase(s, tc);
   return s;

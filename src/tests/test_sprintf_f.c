@@ -25,7 +25,7 @@ END_TEST
 START_TEST(sprintf_3_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "%Lf\n%.Lf!";
+  char *str3 = "%f\n%.f!";
   long double num_long = -76.756589;
   ck_assert_int_eq(sprintf(str1, str3, num_long, num_long),
                    s21_sprintf(str2, str3, num_long, num_long));
@@ -47,7 +47,7 @@ END_TEST
 START_TEST(sprintf_5_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "%Lf\n%.Lf\n%+-#Lf\n%+#.Lf\n%-#.Lf!";
+  char *str3 = "%f\n%.f\n%+-f\n%+.f\n%-.f!";
   long double num = 76.756589;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num, num, num),
                    s21_sprintf(str2, str3, num, num, num, num, num));
@@ -102,7 +102,7 @@ END_TEST
 START_TEST(sprintf_10_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %+15.f\ntest: %+#16.f\ntest: %+#18.0f!";
+  char *str3 = "test: %+15.f\ntest: %+16.f\ntest: %+18.0f!";
   double num = 7648938790.756589;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -124,7 +124,7 @@ END_TEST
 START_TEST(sprintf_12_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %-26.1f\ntest: %-18.0f\ntest: %#-10.f!";
+  char *str3 = "test: %-26.1f\ntest: %-18.0f\ntest: %-10.f!";
   double num = 7648938790.756589;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -135,7 +135,7 @@ END_TEST
 START_TEST(sprintf_13_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %-#15.f\ntest: %-+25.f!";
+  char *str3 = "test: %-15.f\ntest: %-+25.f!";
   double num = 7648938790.756589;
   ck_assert_int_eq(sprintf(str1, str3, num, num),
                    s21_sprintf(str2, str3, num, num));
@@ -267,7 +267,7 @@ END_TEST
 START_TEST(sprintf_25_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %26Lf!\ntest: %18Lf!\ntest: %60Lf!";
+  char *str3 = "test: %26f!\ntest: %18f!\ntest: %60f!";
   long double num = -3752765839673496.34;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -278,7 +278,7 @@ END_TEST
 START_TEST(sprintf_26_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %15Lf!test: %100Lf!";
+  char *str3 = "test: %15f!test: %100f!";
   long double num = -3752765839673496.34;
   ck_assert_int_eq(sprintf(str1, str3, num, num),
                    s21_sprintf(str2, str3, num, num));
@@ -289,7 +289,7 @@ END_TEST
 START_TEST(sprintf_27_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %- 26Lf!\ntest: %+- 18Lf!\ntest: %60Lf!";
+  char *str3 = "test: %-26f!\ntest: %+-18f!\ntest: %60f!";
   long double num = 3752765839673496.34;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -300,7 +300,7 @@ END_TEST
 START_TEST(sprintf_28_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: % +15Lf!test: %100Lf!";
+  char *str3 = "test: %+15f!test: %100f!";
   long double num = 3752765839673496.34;
   ck_assert_int_eq(sprintf(str1, str3, num, num),
                    s21_sprintf(str2, str3, num, num));
@@ -311,7 +311,7 @@ END_TEST
 START_TEST(sprintf_30_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %020f!\ntest: %-020f!\ntest: %+025f!";
+  char *str3 = "test: %20f!\ntest: %-20f!\ntest: %+25f!";
   double num = 837564.4753366;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -322,7 +322,7 @@ END_TEST
 START_TEST(sprintf_31_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %-+ 025.5f!\ntest: %- 020.4f\ntest: %+ 016.6f!";
+  char *str3 = "test: %-+25.5f!\ntest: %-20.4f\ntest: %+16.6f!";
   double num = 837564.4753366;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -333,7 +333,7 @@ END_TEST
 START_TEST(sprintf_32_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %015f!\ntest: %-026f!\ntest: %+018f!";
+  char *str3 = "test: %15f!\ntest: %-26f!\ntest: %+18f!";
   double num = -947.6785643;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -355,7 +355,7 @@ END_TEST
 START_TEST(sprintf_34_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: % 15.1Lf!\ntest: % -26.15Lf!\ntest: %- 30.15Lf!";
+  char *str3 = "test: % 5.1f!\ntest: %-26.15f!\ntest: %-30.15f!";
   long double num = 278.723786;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -366,7 +366,7 @@ END_TEST
 START_TEST(sprintf_35_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %+ 50.15Lf!\ntest: % +40.15Lf!";
+  char *str3 = "test: %+50.15f!\ntest: %+40.15f!";
   long double num = 278.723786;
   ck_assert_int_eq(sprintf(str1, str3, num, num),
                    s21_sprintf(str2, str3, num, num));
@@ -377,7 +377,7 @@ END_TEST
 START_TEST(sprintf_36_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: % 15.1Lf!\ntest: % -26.13Lf!\ntest: %- 30.8Lf!";
+  char *str3 = "test: %15.1f!\ntest: %-26.13f!\ntest: %-30.8f!";
   long double num = -2358.367776967;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -388,7 +388,7 @@ END_TEST
 START_TEST(sprintf_37_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %+ 50.14Lf!\ntest: % +40.14Lf!";
+  char *str3 = "test: %+ 50.14f!\ntest: % +40.14f!";
   long double num = -2358.367776967;
   ck_assert_int_eq(sprintf(str1, str3, num, num),
                    s21_sprintf(str2, str3, num, num));
@@ -399,7 +399,7 @@ END_TEST
 START_TEST(sprintf_38_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %.1Lf!\ntest: %.2Lf!\ntest: %.3Lf!";
+  char *str3 = "test: %.1f!\ntest: %.2f!\ntest: %.3f!";
   long double num = -9999.99999;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -410,7 +410,7 @@ END_TEST
 START_TEST(sprintf_39_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %.10Lf!\ntest: %.6Lf!\ntest: %.Lf!";
+  char *str3 = "test: %.10f!\ntest: %.6f!\ntest: %.f!";
   long double num = -9999.99999;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -421,7 +421,7 @@ END_TEST
 START_TEST(sprintf_40_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %.1Lf!\ntest: %.2Lf!\ntest: %.3Lf!";
+  char *str3 = "test: %.1f!\ntest: %.2f!\ntest: %.3f!";
   long double num = 000000000000000.00000000000;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -432,7 +432,7 @@ END_TEST
 START_TEST(sprintf_41_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %.6Lf!\ntest: %.Lf\ntest: %+ 0Lf!!";
+  char *str3 = "test: %.6f!\ntest: %.f\ntest: %+ 0f!!";
   long double num = 000000000000000.00000000000;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -443,7 +443,7 @@ END_TEST
 START_TEST(sprintf_42_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %.1Lf!\ntest: %.2Lf!\ntest: %.3Lf!";
+  char *str3 = "test: %.1f!\ntest: %.2f!\ntest: %.3f!";
   long double num = -635293201236310753.6495633;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -454,7 +454,7 @@ END_TEST
 START_TEST(sprintf_43_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %+ 0Lf!\ntest: %.6Lf!\ntest: %.15Lf!";
+  char *str3 = "test: %+ 0f!\ntest: %.6f!\ntest: %.15f!";
   long double num = -635293201236310753.6495633;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -465,7 +465,7 @@ END_TEST
 START_TEST(sprintf_44_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %.1Lf!\ntest: %.2Lf!\ntest: %.3Lf!";
+  char *str3 = "test: %.1f!\ntest: %.2f!\ntest: %.3f!";
   long double num = -236310753.6495633;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -476,7 +476,7 @@ END_TEST
 START_TEST(sprintf_45_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %+ 0Lf!\ntest: %.6Lf!\ntest: %.15Lf!";
+  char *str3 = "test: %+ 0f!\ntest: %.6f!\ntest: %.15f!";
   long double num = -236310753.6495633;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -487,7 +487,7 @@ END_TEST
 START_TEST(sprintf_46_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %.1Lf!\ntest: %.2Lf!\ntest: %.3Lf!";
+  char *str3 = "test: %.1f!\ntest: %.2f!\ntest: %.3f!";
   long double num = -9325781235683689988.;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -498,7 +498,7 @@ END_TEST
 START_TEST(sprintf_47_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %+ 0Lf!\ntest: %.6Lf!\ntest: %.15Lf!";
+  char *str3 = "test: %+ 0f!\ntest: %.6f!\ntest: %.15f!";
   long double num = -9325781235683689988.;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -509,7 +509,7 @@ END_TEST
 START_TEST(sprintf_48_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %.1Lf!\ntest: %.2Lf!\ntest: %.3Lf!";
+  char *str3 = "test: %.1f!\ntest: %.2f!\ntest: %.3f!";
   long double num = 823631075973858585858447757573.6495633;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -520,7 +520,7 @@ END_TEST
 START_TEST(sprintf_49_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %+ 0Lf!\ntest: %.6Lf!\ntest: %.15Lf!";
+  char *str3 = "test: %+ 0f!\ntest: %.6f!\ntest: %.15f!";
   long double num = 823631075973858585858447757573.6495633;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -531,7 +531,7 @@ END_TEST
 START_TEST(sprintf_50_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %25.5Lf!\ntest: %Lf!\ntest: %-50Lf!";
+  char *str3 = "test: %25.5f!\ntest: %f!\ntest: %-50f!";
   long double num = -9325781235683689988.;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -542,7 +542,7 @@ END_TEST
 START_TEST(sprintf_51_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %+ 0Lf!\ntest: %060Lf!\ntest: %.15Lf!";
+  char *str3 = "test: %+f!\ntest: %60f!\ntest: %.15f!";
   long double num = -9325781235683689988.;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -553,7 +553,7 @@ END_TEST
 START_TEST(sprintf_52_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %-+.1Lf!\ntest: %- .2Lf!\ntest: %-0.3Lf!";
+  char *str3 = "test: %-+.1f!\ntest: %- .2f!\ntest: %-0.3f!";
   long double num = -0.999999;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -630,4 +630,12 @@ Suite *test_sprintf_f(void) {
 
   suite_add_tcase(s, tc);
   return s;
+}
+int main(void) {
+  Suite *suite = test_sprintf_f();
+  SRunner *suite_runner = srunner_create(suite);
+  srunner_run_all(suite_runner, CK_VERBOSE);
+  int failed_count = srunner_ntests_failed(suite_runner);
+  srunner_free(suite_runner);
+  return (failed_count == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

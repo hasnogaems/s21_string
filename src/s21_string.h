@@ -7,8 +7,20 @@
 #include <stdbool.h>
 #include <wchar.h>
 
+#include "math.h"
 typedef long unsigned s21_size_t;
 #define S21_NULL ((void *)0)
+struct flag_type {
+  int plus;
+  int minus;
+  int space;
+  int is_short;
+  int is_long;
+  int precision;
+  int width;
+};
+
+typedef struct flag_type flag_t;
 
 void *s21_memchr(const void *str, int c, s21_size_t n);
 int s21_memcmp(const void *str1, const void *str2, s21_size_t n);
@@ -25,10 +37,23 @@ char *s21_strpbrk(const char *str1, const char *str2);
 char *s21_strrchr(const char *str, int c);
 char *s21_strstr(const char *haystack, const char *needle);
 char *s21_strtok(char *str, const char *delim);
-void s21_reverse(char *str, int length);
-int s21_itoa(int num, char *str, int base);
-int s21_atoi(const char *str);
+
+void reset_flags(flag_t* flags);
+char* print_char(char* str, flag_t* flags, char type, va_list* input);
+char* print_string(char* str, flag_t* flags, va_list* input);
+char* print_wide_string(char* str, flag_t* flags, va_list* input);
+char* print_number(char* str, flag_t* flags, char type, va_list* input);
+void s21_itos(char* str, long long int num, flag_t* flags);
+void s21_ftos(char* str, double num, flag_t* flags);
+void s21_uitos(char* str, unsigned long num, flag_t* flags);
+// void s21_reverse(char *str, int length);
+// int s21_itoa(int num, char *str, int base);
+// int s21_atoi(const char *str);
 int s21_sprintf(char *str, const char *format, ...);
+
+
+
+
 
 #define S21EPERM_STR "Operation not permitted"
 #define S21ENOENT_STR "No such file or directory"
@@ -136,13 +161,13 @@ int s21_sprintf(char *str, const char *format, ...);
 #define S21ENOTRECOVERABLE_STR "State not recoverable"
 #define S21EOWNERDEAD_STR "Previous owner died"
 #define S21EQFULL_STR "Interface output queue is full"
-typedef struct{
-     bool left_justify ;
-     bool force_sign;
-     bool space_for_positive ;
-     bool alternate_form ;
-     bool zero_padding;
-}options;
+// typedef struct{
+//      bool left_justify ;
+//      bool force_sign;
+//      bool space_for_positive ;
+//      bool alternate_form ;
+//      bool zero_padding;
+// }options;
 #define ERRORS_COUNT 106
 // const char *errorStrings[] = {S21EPERM_STR,
 //                         S21ENOENT_STR,
