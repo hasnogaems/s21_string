@@ -1,6 +1,6 @@
 #include "s21_string.h"
 
-void *s21_memchr(const void *str, int c, s21_size_t n) {
+void *s21_memchr(const void *str, int c, s21_size_t n) { //Выполняет поиск первого вхождения символа c (беззнаковый тип) в первых n байтах строки, на которую указывает аргумент str.
   char *line = S21_NULL;
   for (int i = 0; i < (int)n; i++) {
     if (((char *)str)[i] == c) {
@@ -11,32 +11,33 @@ void *s21_memchr(const void *str, int c, s21_size_t n) {
   return line;
 }
 
-int s21_memcmp(const void *str1, const void *str2, s21_size_t n) {
+int s21_memcmp(const void *str1, const void *str2, s21_size_t n) { //Сравнивает первые n байтов str1 и str2.
   int cmp = 0;
   for (int i = 0; i < (int)n; i++) {
     if (((char *)str1)[i] != ((char *)str2)[i]) {
       cmp = ((char *)str1)[i] - ((char *)str2)[i];
+      // printf("%c\n%c\n",((char *)str1)[i], ((char *)str2)[i] );
       break;
     }
   }
   return cmp;
 }
 
-void *s21_memcpy(void *dest, const void *src, s21_size_t n) {
+void *s21_memcpy(void *dest, const void *src, s21_size_t n) { //Копирует n символов из src в dest.
   for (int i = 0; i < (int)n; i++) {
     ((char *)dest)[i] = ((char *)src)[i];
   }
   return dest;
 }
 
-void *s21_memset(void *str, int c, s21_size_t n) {
+void *s21_memset(void *str, int c, s21_size_t n) { //Копирует символ c (беззнаковый тип) в первые n символов строки, на которую указывает аргумент str.
   for (int i = 0; i < (int)n; i++) {
     ((char *)str)[i] = c;
   }
   return str;
 }
 
-char *s21_strncat(char *dest, const char *src, s21_size_t n) {
+char *s21_strncat(char *dest, const char *src, s21_size_t n) { //Добавляет строку, на которую указывает src, в конец строки, на которую указывает dest, длиной до n символов.
   s21_size_t dest_len = s21_strlen(dest);
   for (int i = 0; i < (int)n && src[i] != '\0'; i++) {
     dest[dest_len + i] = src[i];
@@ -218,7 +219,7 @@ char *s21_strerror(int errnum) {
   return str;
 }
 
-s21_size_t s21_strlen(const char *str) {
+s21_size_t s21_strlen(const char *str) { //вычисляет длину строки str, не включая завершающий нулевой символ.
   const char *ptr = str;
   while (*ptr != '\0') {
     ptr++;

@@ -3,9 +3,10 @@
 #include <stdarg.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <stdio.h>
 
-typedef long unsigned s21_size_t;
-#define S21_NULL ((void *)0)
+typedef long unsigned s21_size_t; //Целочисленный тип без знака, являющийся результатом ключевого слова sizeof.
+#define S21_NULL ((void *)0) //Макрос, являющийся значением константы нулевого указателя.
 
 struct flag_type {
   int plus;
